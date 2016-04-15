@@ -14,7 +14,7 @@
     </div>
     <div class="container">
       <div class="page-header">
-        <h2>Web Access Backlist</h2>
+        <h2>Web Access Blacklist</h2>
       </div>
       <div class="col-md-9">
         <a class="list-group-item list-group-item-heading">Host</a>
@@ -57,7 +57,7 @@
         $('#name').html('')
         $('#rmbtn').html('')
         for (var ip in backlist) {
-          $('#name').append('<a class="list-group-item btn list-group-item-info">'+backlist[ip]+'</a>');
+          $('#name').append('<a class="list-group-item list-group-item-info">'+backlist[ip]+'</a>');
           $('#rmbtn').append('<a class="list-group-item btn btn-success list-group-item-success text-center " onclick="removeBacklist('+ip+')">Remove</a>')
         }
       }
