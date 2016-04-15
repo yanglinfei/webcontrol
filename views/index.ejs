@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+    <link rel="icon" href="images/logo.png">
+  </head>
+  <body>
+    <div class="container">
+        <img src="images/odl.png" height="40px">
+    </div>
+    <div class="container">
+      <div class="page-header">
+        <h2>Web Access Backlist</h2>
+      </div>
+      <div class="col-md-9">
+        <a class="list-group-item list-group-item-heading">Host</a>
+      </div>
+      <div class="col-md-3">
+        <a class="list-group-item list-group-item-heading text-center">Control</a>
+      </div>
+      <div class="col-md-9">
+        <div class="list-group" id="name">
+          <a class="list-group-item list-group-item-info">H1 10.0.0.1</a>
+          <a class="list-group-item list-group-item-info">H2 10.0.0.2</a>
+          <a class="list-group-item list-group-item-info">H3 10.0.0.3</a>
+          <a class="list-group-item list-group-item-info">H4 10.0.0.4</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="list-group" id="rmbtn">
+          <a class="list-group-item list-group-item-success text-center">H1 10.0.0.1</a>
+          <a class="list-group-item list-group-item-success text-center">H2 10.0.0.2</a>
+          <a class="list-group-item list-group-item-success text-center">H3 10.0.0.3</a>
+          <a class="list-group-item list-group-item-success text-center">H4 10.0.0.4</a>
+        </div>
+      </div>
+        <a id="test"></a>
+    </div>
+    <div class="container">
+      <hr class="list-inline">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="ip">IP:</label>
+          <input type="text" class="form-control" id="ip">
+        </div>
+        <button type="button" class="btn btn-danger" onclick="addBacklist()">Add to Backlist</button>
+      </form>
+    </div>
+    <script src="/javascripts/bootstrap.js"></script>
+    <script src="/javascripts/jquery.js"></script>
+    <script>
+      function updateDiv(backlist) {
+        $('#name').html('')
+        $('#rmbtn').html('')
+        for (var ip in backlist) {
+          $('#name').append('<a class="list-group-item btn list-group-item-info">'+backlist[ip]+'</a>');
+          $('#rmbtn').append('<a class="list-group-item btn btn-success list-group-item-success text-center " onclick="removeBacklist('+ip+')">Remove</a>')
+        }
+      }
+      function updateBacklist() {
+        $.get('/backlist',function (result) {
+          updateDiv(eval(result));
+        })
+      }
+      function removeBacklist(i) {
+        $.post('/remove',{'ip':i},function (result) {
+          updateDiv(eval(result));
+        })
+      }
+      function addBacklist() {
+        var ip = $("#ip")[0].value;
+        $.post('/backlist',{'ip':ip},function (result) {
+          updateDiv(eval(result));
+        })
+      }
+      $(document).ready(function () {
+        updateBacklist()
+      })
+
+    </script>
+  </body>
+
+</html>
